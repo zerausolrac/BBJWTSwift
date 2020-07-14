@@ -7,9 +7,9 @@
 
 import Foundation
 
-public protocol BBJWTRequestable{
-    var baseURL:String? {get set}
-    var endPoint:String? {get set}
+ protocol BBJWTRequestable{
+    var baseURL:String? { get }
+    var endPoint:String? { get }
     var jwt:String {get}
     init(jwt:String)
     
@@ -17,10 +17,13 @@ public protocol BBJWTRequestable{
 }
 
 
+
+
+
 extension BBJWTRequestable {
     
-    public var baseURL:String? {nil}
-    public var endPoint:String? {nil}
+     var baseURL:String? {nil}
+     var endPoint:String? {nil}
     
     
     public func getToken<T:Codable>(completado:@escaping (T?)->Void) {
@@ -63,12 +66,9 @@ extension BBJWTRequestable {
 
 
 public struct BBJWTRequest:BBJWTRequestable{
-    public var jwt: String
+    var jwt: String
     
-    public init(jwt: String) {
+    init(jwt: String) {
         self.jwt = jwt
     }
-    
-    
-    
 }
