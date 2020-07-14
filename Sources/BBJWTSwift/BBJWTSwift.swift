@@ -15,11 +15,11 @@ public struct JWTHeader:BbHeader, Encodable64 {
     
     public func encode64Url() -> String {
         let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .useDefaultKeys
+        encoder.dataEncodingStrategy = .base64
         do{
             let json = try encoder.encode(self)
-            let encode64 = json.base64EncodedData()
-            return encode64.base64EncodedString()
+            let encode64 = json.base64EncodedString()
+            return base64Url(desde: encode64)
         }catch{
             fatalError("Error Encode JSON - header")
         }
@@ -42,11 +42,11 @@ public struct JWTPayload:BbPayload, Encodable64{
     
     public func encode64Url() -> String {
         let encoder = JSONEncoder()
-            encoder.keyEncodingStrategy = .useDefaultKeys
+            encoder.dataEncodingStrategy = .base64
             do{
                 let json = try encoder.encode(self)
-                let encode64 = json.base64EncodedData()
-                return encode64.base64EncodedString()
+                let encode64 = json.base64EncodedString()
+                return base64Url(desde: encode64)
             }catch{
                 fatalError("Error Encode JSON - Payload")
             }
