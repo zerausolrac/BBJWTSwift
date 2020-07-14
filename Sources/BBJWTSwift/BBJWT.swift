@@ -7,11 +7,8 @@
 
 import Foundation
 
-public protocol Jotenable:Codable{
-    var access_token:String{get}
-}
 
-public struct BBJWT:Jotenable{
+public struct BBJWT:Codable{
    public var access_token: String
 }
 
