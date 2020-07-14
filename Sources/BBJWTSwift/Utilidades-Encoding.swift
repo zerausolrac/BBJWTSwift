@@ -22,7 +22,7 @@ func base64Url(desde base64:String) -> String{
 func signer(data:Data, secret:String) -> String{
    let keyData = secret.data(using: .utf8)!
    let key = SymmetricKey(data: keyData)
-   let signedString =  HMAC<HS256>.authenticationCode(for: data, using: key)
+   let signedString =  HMAC<SHA256>.authenticationCode(for: data, using: key)
    let signed = Data(signedString).base64EncodedData()
     return  base64Url(desde: signed.base64EncodedString())
 }
