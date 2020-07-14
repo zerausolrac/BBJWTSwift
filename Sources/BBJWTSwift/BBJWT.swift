@@ -10,7 +10,6 @@ import Foundation
 public protocol BbHeader:Encodable{
      var alg:String { get }
      var typ:String { get }
-    
 }
 
 public protocol BbPayload:Encodable{
