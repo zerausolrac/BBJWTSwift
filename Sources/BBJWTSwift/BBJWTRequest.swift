@@ -19,11 +19,11 @@ public protocol BBJWTRequestable{
 
 extension BBJWTRequestable {
     
-    var baseURL:String? {nil}
-    var endPoint:String? {nil}
+    public var baseURL:String? {nil}
+    public var endPoint:String? {nil}
     
     
-    func getToken<T:Jotenable>(completado:@escaping (T?)->Void) {
+    public func getToken<T:Jotenable>(completado:@escaping (T?)->Void) {
         
         var requestURL = URLComponents()
         requestURL.scheme = "https"
@@ -62,10 +62,10 @@ extension BBJWTRequestable {
 }
 
 
-struct BBJWTRequest:BBJWTRequestable{
-    var jwt: String
+public struct BBJWTRequest:BBJWTRequestable{
+    public var jwt: String
     
-    init(jwt: String) {
+    public init(jwt: String) {
         self.jwt = jwt
     }
     
