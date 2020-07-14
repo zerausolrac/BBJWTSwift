@@ -10,8 +10,9 @@ import Foundation
 public protocol BBJWTRequestable{
     var baseURL:String? {get}
     var endPoint:String? {get}
-    var jwt:String? {get}
-    init(jwt:String?)
+    var jwt:String {get}
+    init(jwt:String)
+    
     func getToken<T:Jotenable>(completado:@escaping (T?)->Void)
 }
 
@@ -20,10 +21,9 @@ extension BBJWTRequestable {
     
     var baseURL:String? {nil}
     var endPoint:String? {nil}
-    var jwt:String? {nil}
     
     
-    func getToken<T:Jotenable>(completado:@escaping (T?)->Void){
+    func getToken<T:Jotenable>(completado:@escaping (T?)->Void) {
         
         var requestURL = URLComponents()
         requestURL.scheme = "https"
@@ -57,10 +57,18 @@ extension BBJWTRequestable {
         
         sesion.resume()
         
-        
-        
     }
     
 }
 
-public struct BBJWTRequest:BBJWTRequestable{}
+
+struct BBJWTRequest:BBJWTRequestable{
+    var jwt: String
+    
+    init(jwt: String) {
+        self.jwt = jwt
+    }
+    
+    
+    
+}
