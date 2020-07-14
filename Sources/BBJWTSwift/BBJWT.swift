@@ -27,5 +27,5 @@ public protocol Encodable64{
 public protocol BbSignature{
     var header:String {get}
     var payload:String {get}
-    func sign(data:Data, secret:String) -> String
+    func sign(secret:String) -> String
 }

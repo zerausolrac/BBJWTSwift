@@ -59,12 +59,12 @@ public struct JWTSignature:BbSignature{
     public var payload: String
     public var header: String
     
-    public init(payload: String, header: String) {
+    public init(header: String, payload: String) {
         self.payload = payload
         self.header = header
     }
     
-    public func sign(data: Data, secret: String) -> String {
+    public func sign(secret: String) -> String {
        let preSign  = header + "." + payload
         let data = preSign.data(using: .utf8)!
        return signer(data: data, secret: secret)
