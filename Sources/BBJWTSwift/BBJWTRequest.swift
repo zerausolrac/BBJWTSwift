@@ -68,7 +68,7 @@ extension BBJWTRequestable {
 public struct BBJWTRequest:BBJWTRequestable{
     var jwt: String
     
-    init(jwt: String) {
+    public init(jwt: String) {
         self.jwt = jwt
     }
 }
