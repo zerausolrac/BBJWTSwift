@@ -56,11 +56,13 @@ public struct JWTPayload:BbPayload, Encodable64{
 
 
 public struct JWTSignature:BbSignature{
-    
     public var payload: String
     public var header: String
     
-    public init(){}
+    public init(payload: String, header: String) {
+        self.payload = payload
+        self.header = header
+    }
     
     public func sign(data: Data, secret: String) -> String {
        let preSign  = header + "." + payload
