@@ -8,7 +8,7 @@
 import Foundation
 
 
-public struct BBJWT:Codable{
+public struct BBJWT:Decodable{
    public var access_token: String
 }
 
