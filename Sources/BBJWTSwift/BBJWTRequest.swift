@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol BBJWTRequest{
+public protocol BBJWTRequestable{
     var baseURL:String? {get}
     var endPoint:String? {get}
     var jwt:String? {get}
@@ -16,7 +16,7 @@ public protocol BBJWTRequest{
 }
 
 
-extension BBJWTRequest{
+extension BBJWTRequestable {
     
     var baseURL:String? {nil}
     var endPoint:String? {nil}
@@ -61,6 +61,6 @@ extension BBJWTRequest{
         
     }
     
-    
-    
 }
+
+public struct BBJWTRequest:BBJWTRequestable{}
