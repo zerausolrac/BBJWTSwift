@@ -59,7 +59,9 @@ public struct JWTSignature:BbSignature{
     
     public var payload: String
     public var header: String
-
+    
+    public init(){}
+    
     public func sign(data: Data, secret: String) -> String {
        let preSign  = header + "." + payload
         let data = preSign.data(using: .utf8)!
