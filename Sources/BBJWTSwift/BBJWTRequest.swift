@@ -11,6 +11,7 @@ public protocol BBJWTRequest{
     var baseURL:String {get}
     var endPoint:String{get}
     var jwt:String {get}
+    init(jwt:String)
     func getToken<T:Jotenable>(completado:@escaping (T?)->Void)
 }
 
