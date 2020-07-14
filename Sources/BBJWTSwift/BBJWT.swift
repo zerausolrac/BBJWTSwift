@@ -7,6 +7,17 @@
 
 import Foundation
 
+public protocol Jotenable:Codable{
+    var access_token:String{get}
+}
+
+public struct BBJWT:Jotenable{
+   public var access_token: String
+}
+
+
+
+
 public protocol BbHeader:Encodable{
      var alg:String { get }
      var typ:String { get }
