@@ -8,22 +8,27 @@
 import Foundation
 
 public protocol BBJWTRequest{
-    var baseURL:String {get}
-    var endPoint:String{get}
-    var jwt:String {get}
-    init(jwt:String)
+    var baseURL:String? {get}
+    var endPoint:String? {get}
+    var jwt:String? {get}
+    init(jwt:String?)
     func getToken<T:Jotenable>(completado:@escaping (T?)->Void)
 }
 
 
 extension BBJWTRequest{
     
-     func getToken<T:Jotenable>(completado:@escaping (T?)->Void){
+    var baseURL:String? {nil}
+    var endPoint:String? {nil}
+    var jwt:String? {nil}
+    
+    
+    func getToken<T:Jotenable>(completado:@escaping (T?)->Void){
         
         var requestURL = URLComponents()
         requestURL.scheme = "https"
-        requestURL.host = self.baseURL
-        requestURL.path = self.endPoint
+        requestURL.host = self.baseURL!
+        requestURL.path = self.endPoint!
         
         let componentes:[URLQueryItem] = [URLQueryItem(name: "grant_typ", value: "urn:ietf:params:oauth:grant-type:jwt-bearer"),
             URLQueryItem(name: "assertion", value: self.jwt)]
