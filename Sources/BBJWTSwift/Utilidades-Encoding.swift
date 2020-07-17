@@ -36,7 +36,7 @@ func signer(a:B, secret:B) -> B{
 
 
 
-func convetidorB64URL<T:Codable>(_ a:T) -> B?{
+func convetidorB64URL<T:Codable>(_ a:T) -> B{
     
         let encoder = JSONEncoder()
         encoder.dataEncodingStrategy = .base64

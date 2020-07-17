@@ -4,7 +4,7 @@ import Crypto
 
 
 
-public struct JWTHeader:BbHeader, Encodable64, CustomStringConvertible {
+public struct JWTHeader:BbHeader, Encodable64, CustomStringConvertible, Codable {
     public var description: B{ return "alg: \(alg) typ:\(typ)"}
     public var alg: B
     public var typ: B
@@ -15,20 +15,12 @@ public struct JWTHeader:BbHeader, Encodable64, CustomStringConvertible {
     }
     
     public func encode64Url() -> B {
-        let encoder = JSONEncoder()
-        encoder.dataEncodingStrategy = .base64
-        do{
-            let json = try encoder.encode(self)
-            let encode64 = json.base64EncodedString()
-            return base64Url(desde: encode64)
-        }catch{
-            fatalError("Error Encode JSON - header")
-        }
+      return convetidorB64URL(self)
     }
 }
 
 
-public struct JWTPayload:BbPayload, Encodable64,CustomStringConvertible{
+public struct JWTPayload:BbPayload, Encodable64,CustomStringConvertible,Codable{
     public var description: B{ return "iss:\(iss) sub:\(sub) exp:\(String(exp))"}
     public var iss: B
     public var sub: B
@@ -40,17 +32,9 @@ public struct JWTPayload:BbPayload, Encodable64,CustomStringConvertible{
         
     }
     
-    public func encode64Url() -> B {
-        let encoder = JSONEncoder()
-            encoder.dataEncodingStrategy = .base64
-            do{
-                let json = try encoder.encode(self)
-                let encode64 = json.base64EncodedString()
-                return base64Url(desde: encode64)
-            }catch{
-                fatalError("Error Encode JSON - Payload")
-            }
-        }
+      public func encode64Url() -> B {
+        return convetidorB64URL(self)
+      }
     }
 
 
