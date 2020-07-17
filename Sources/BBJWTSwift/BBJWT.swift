@@ -8,7 +8,7 @@
 import Foundation
 
 
-public struct BBJWT:Decodable{
+public struct BBJWT:Codable{
    public var access_token: B
     public var expires_in:I
 }
