@@ -36,41 +36,19 @@ func signer(a:B, secret:B) -> B{
 
 
 
-func convetidorB64URL<T:Codable>(_ a:T, t:Int, d:D?) -> B?{
-    if let data = d, t == 0 {
-        let decoder = JSONDecoder()
-        do{
-            let json = try decoder.decode(T.self, from: data)
-            switch json{
-             case is JWTHeader:
-                var str:JWTHeader
-                str = json as! JWTHeader
-                return str.description
-            case is JWTPayload:
-                var str:JWTPayload
-                 str = json as! JWTPayload
-                return str.description
-            default:
-                 fatalError("Type no defined in JWTBB type")
-            }
-        } catch {
-            fatalError("Decode Failed")
-        }
-        
-    } else if t == 1{
+func convetidorB64URL<T:Codable>(_ a:T) -> B?{
+    
         let encoder = JSONEncoder()
         encoder.dataEncodingStrategy = .base64
         do{
             let j = try encoder.encode(a.self)
-            return j.base64EncodedString()
+            return  base64Url(desde:j.base64EncodedString())
         }catch {
             fatalError("Encode Failed")
         }
-    } else {
-        return nil
-    }
-     
 }
+     
+
 
 func tiempoExp() -> I{
     return Int(Date().timeIntervalSince1970 + 5*60)
