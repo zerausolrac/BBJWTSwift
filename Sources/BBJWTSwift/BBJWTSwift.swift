@@ -32,12 +32,12 @@ public struct JWTPayload:BbPayload, Encodable64,CustomStringConvertible{
     public var description: B{ return "iss:\(iss) sub:\(sub) exp:\(String(exp))"}
     public var iss: B
     public var sub: B
-    public var exp: I
+    public var exp: I = tiempoExp()
     
-    public  init(iss: B, sub: B, exp: I) {
+    public  init(iss: B, sub: B) {
         self.iss = iss
         self.sub = sub
-        self.exp = exp
+        
     }
     
     public func encode64Url() -> B {

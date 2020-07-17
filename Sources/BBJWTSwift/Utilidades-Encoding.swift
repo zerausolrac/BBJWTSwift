@@ -36,9 +36,7 @@ func signer(a:B, secret:B) -> B{
 
 
 
-
 func convetidorB64URL<T:Codable>(_ a:T, t:Int, d:D?) -> B?{
-    
     if let data = d, t == 0 {
         let decoder = JSONDecoder()
         do{
@@ -72,4 +70,8 @@ func convetidorB64URL<T:Codable>(_ a:T, t:Int, d:D?) -> B?{
         return nil
     }
      
+}
+
+func tiempoExp() -> I{
+    return Int(Date().timeIntervalSince1970 + 5*60)
 }
