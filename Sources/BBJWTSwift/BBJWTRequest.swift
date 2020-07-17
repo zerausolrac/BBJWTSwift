@@ -8,12 +8,11 @@
 import Foundation
 
  public protocol BBJWTRequestable{
-    var baseURL:String { get }
-     var endPoint:String { get }
-     var jwt:String {get}
-    init(baseURL:String, endPoint:String, jwt:String)
-    
-    func getToken(completado:@escaping (BBJWT?)->Void)
+    var baseURL:B { get }
+     var endPoint:B { get }
+     var jwt:B {get}
+    init(baseURL:B, endPoint:B, jwt:B)
+    func getToken<T:Codable>(completado:@escaping (T?)->Void)
 }
 
 
@@ -22,21 +21,22 @@ import Foundation
 
 extension BBJWTRequestable {
     
-    public func getToken(completado:@escaping (BBJWT?)->Void) {
+    public func getToken<T:Codable>(completado:@escaping (T?)->Void) {
         
         var requestURL = URLComponents()
         requestURL.scheme = "https"
         requestURL.host = self.baseURL
         requestURL.path = self.endPoint
         
-        let componentes:[URLQueryItem] = [URLQueryItem(name: "grant_typ", value: "urn:ietf:params:oauth:grant-type:jwt-bearer"),
+        let componentes:[URLQueryItem] = [URLQueryItem(name: "grant_type", value: "urn:ietf:params:oauth:grant-type:jwt-bearer"),
             URLQueryItem(name: "assertion", value: self.jwt)]
+        
         
         requestURL.queryItems = componentes
         let authURL = requestURL.url!
         var request = URLRequest(url: authURL)
         request.httpMethod = "POST"
-        
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         let sesion = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             guard let data = data else {
@@ -45,7 +45,7 @@ extension BBJWTRequestable {
             }
              let decoder = JSONDecoder()
             do{
-                let json = try decoder.decode(BBJWT.self, from: data)
+                let json = try decoder.decode(T.self, from: data)
                 completado(json)
                 
             } catch{
@@ -53,7 +53,6 @@ extension BBJWTRequestable {
                 fatalError("JWT Request token decode json error")
             }
         }
-        
         sesion.resume()
         
     }
@@ -62,11 +61,11 @@ extension BBJWTRequestable {
 
 
 public struct BBJWTRequest:BBJWTRequestable{
-    public var baseURL: String
-    public var endPoint: String
-    public var jwt: String
+    public var baseURL: B
+    public var endPoint: B
+    public var jwt: B
     
-    public init(baseURL:String, endPoint:String,jwt: String) {
+    public init(baseURL:B, endPoint:B,jwt: B) {
         self.baseURL = baseURL
         self.endPoint = endPoint
         self.jwt = jwt

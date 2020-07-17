@@ -4,16 +4,17 @@ import Crypto
 
 
 
-public struct JWTHeader:BbHeader, Encodable64 {
-    public var alg: String
-    public var typ: String
+public struct JWTHeader:BbHeader, Encodable64, CustomStringConvertible {
+    public var description: B{ return "alg: \(alg) typ:\(typ)"}
+    public var alg: B
+    public var typ: B
     
-    public init(alg:String, typ:String) {
+    public init(alg:B, typ:B) {
         self.alg = alg
         self.typ = typ
     }
     
-    public func encode64Url() -> String {
+    public func encode64Url() -> B {
         let encoder = JSONEncoder()
         encoder.dataEncodingStrategy = .base64
         do{
@@ -27,20 +28,19 @@ public struct JWTHeader:BbHeader, Encodable64 {
 }
 
 
-public struct JWTPayload:BbPayload, Encodable64{
+public struct JWTPayload:BbPayload, Encodable64,CustomStringConvertible{
+    public var description: B{ return "iss:\(iss) sub:\(sub) exp:\(String(exp))"}
+    public var iss: B
+    public var sub: B
+    public var exp: I
     
-    public var iss: String
-    public var sub: String
-    public var exp: String
-    
-    public  init(iss: String, sub: String, exp: String) {
+    public  init(iss: B, sub: B, exp: I) {
         self.iss = iss
         self.sub = sub
         self.exp = exp
     }
     
-    
-    public func encode64Url() -> String {
+    public func encode64Url() -> B {
         let encoder = JSONEncoder()
             encoder.dataEncodingStrategy = .base64
             do{
@@ -56,18 +56,17 @@ public struct JWTPayload:BbPayload, Encodable64{
 
 
 public struct JWTSignature:BbSignature{
-    public var payload: String
-    public var header: String
+    public var payload: B
+    public var header: B
     
-    public init(header: String, payload: String) {
+    public init(header: B, payload: B) {
         self.payload = payload
         self.header = header
     }
     
-    public func sign(secret: String) -> String {
+    public func sign(secret: B) -> B {
        let preSign  = header + "." + payload
-        let data = preSign.data(using: .utf8)!
-       return signer(data: data, secret: secret)
+       return signer(a: preSign, secret: secret)
     }
 }
 

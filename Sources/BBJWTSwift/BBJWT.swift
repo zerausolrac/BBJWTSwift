@@ -9,31 +9,30 @@ import Foundation
 
 
 public struct BBJWT:Decodable{
-   public var access_token: String
+   public var access_token: B
+    public var expires_in:I
 }
-
-
-
 
 public protocol BbHeader:Encodable{
-     var alg:String { get }
-     var typ:String { get }
+     var alg:B { get }
+     var typ:B { get }
 }
 
+
 public protocol BbPayload:Encodable{
-    var iss:String { get }
-    var sub:String { get }
-    var exp:String { get }
+    var iss:B { get }
+    var sub:B { get }
+    var exp:I{ get }
 }
 
 
 public protocol Encodable64{
-    func encode64Url() -> String
+    func encode64Url() -> B
 }
 
 
 public protocol BbSignature{
-    var header:String {get}
-    var payload:String {get}
-    func sign(secret:String) -> String
+    var header:B {get}
+    var payload:B {get}
+    func sign(secret:B) -> B
 }
