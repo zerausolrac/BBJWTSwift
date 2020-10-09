@@ -12,25 +12,14 @@ import Foundation
      var endPoint:B { get }
      var jwt:B {get}
     init(baseURL:B, endPoint:B, jwt:B)
-    func buildJot(key:B, secret:B) -> B
     func getToken<T:Codable>(completado:@escaping (T?)->Void)
     
 }
 
 
 
-
-
 extension BBJWTRequestable {
-    
-    public func buildJot(key:B, secret:B) -> B {
-        let header = JWTHeader(alg: "HS256", typ: "JWT").encode64Url()
-        let payload = JWTPayload(iss: key, sub: key).encode64Url()
-        let signature = JWTSignature(header: header, payload: payload).sign(secret: secret)
-        return header + "." + payload + "." + signature
-    }
-    
-    
+        
     public func getToken<T:Codable>(completado:@escaping (T?)->Void) {
     
         var requestURL = URLComponents()

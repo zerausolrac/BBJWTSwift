@@ -38,8 +38,17 @@ public protocol BbSignature{
 }
 
 
+public protocol BbAssertion{
+    var key:B {get}
+    var secret:B {get}
+    func buildJot() -> B
+}
+
+
 public protocol BbError:Codable {
     var error:B {get}
     var message:B {get}
     func toJson() -> D
 }
+
+
