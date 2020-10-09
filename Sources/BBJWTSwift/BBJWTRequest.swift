@@ -38,51 +38,53 @@ extension BBJWTRequestable {
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         let sesion = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            guard let error = error, let response = response as? HTTPURLResponse else{
-                let cerror = JwtError(error: "500", message: "Network error, try again!") as! T
+            if error == nil{
+                guard let response = response as? HTTPURLResponse, let data = data else{
+                    let cerror = JwtError(error: "500", message: "Network error, try again!") as! T
+                    completado(cerror)
+                    return
+                }
+                
+                switch response.statusCode{
+                case 200:
+                    let decoder = JSONDecoder()
+                    do{
+                        let json = try decoder.decode(T.self, from: data)
+                        completado(json)
+                    } catch{
+                        let cerror = JwtError(error: "Error Json", message: "Data couldn't conver to json")as! T
+                        completado(cerror)
+                    }
+                case 400:
+                    let cerror = JwtError(error: "400: Bad Request", message: "The json was invalid.") as! T
+                    completado(cerror)
+                case 401:
+                    let cerror = JwtError(error: "401:Unauthorized", message: "Authentication credential was missing or incorrect") as! T
+                    completado(cerror)
+                case 403:
+                    let cerror = JwtError(error: "403:Forbidden", message: "You don't have permission to access this resource.") as! T
+                    completado(cerror)
+                case 404:
+                    let cerror = JwtError(error: "404: Resourse Not found", message: "You don't have read access to this resource or the resource does not exist") as! T
+                    completado(cerror)
+                case 405:
+                    let cerror = JwtError(error: "405: Method not alloweb", message: "The request is not valid") as! T
+                    completado(cerror)
+                case 500:
+                    let cerror = JwtError(error: "500: Internal error", message: "Something seems to be broken on our side. Can you please contact Technical Support") as! T
+                    completado(cerror)
+                default:
+                    let cerror = JwtError(error: "Error:", message: "Unkown error") as! T
+                    completado(cerror)
+                }
+                
+            } else {
+                let cerror = JwtError(error: "500", message: error!.localizedDescription) as! T
                 completado(cerror)
                 return
             }
             
-            switch response.statusCode{
-            case 200:
-                guard let data = data else {
-                    completado(nil)
-                    let cerror = JwtError(error: "No data", message: "Any data was returned") as! T
-                    completado(cerror )
-                    return 
-                }
-                 let decoder = JSONDecoder()
-                do{
-                    let json = try decoder.decode(T.self, from: data)
-                    completado(json)
-                    
-                } catch{
-                    let cerror = JwtError(error: "Error Json", message: "Data couldn't conver to json")as! T
-                    completado(cerror)
-                }
-            case 400:
-                let cerror = JwtError(error: "400: Bad Request", message: "The json was invalid.") as! T
-                completado(cerror)
-            case 401:
-                let cerror = JwtError(error: "401:Unauthorized", message: "Authentication credential was missing or incorrect") as! T
-                completado(cerror)
-            case 403:
-                let cerror = JwtError(error: "403:Forbidden", message: "You don't have permission to access this resource.") as! T
-                completado(cerror)
-            case 404:
-                let cerror = JwtError(error: "404: Resourse Not found", message: "You don't have read access to this resource or the resource does not exist") as! T
-                completado(cerror)
-            case 405:
-                let cerror = JwtError(error: "405: Method not alloweb", message: "The request is not valid") as! T
-                completado(cerror)
-            case 500:
-                let cerror = JwtError(error: "500: Internal error", message: "Something seems to be broken on our side. Can you please contact Technical Support") as! T
-                completado(cerror)
-            default:
-                let cerror = JwtError(error: "Error:", message: error.localizedDescription) as! T
-                completado(cerror)
-            }
+           
             
 
             
