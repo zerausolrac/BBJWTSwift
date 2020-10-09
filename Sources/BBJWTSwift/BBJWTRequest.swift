@@ -61,7 +61,7 @@ extension BBJWTRequestable {
                     completado(nil)
                     let cerror = JwtError(error: "No data", message: "Any data was returned")
                     completado((cerror as! T))
-                    return
+                    return 
                 }
                  let decoder = JSONDecoder()
                 do{

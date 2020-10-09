@@ -8,7 +8,7 @@
 import Foundation
 import Crypto
 
-public typealias B = String
+public typealias B = String 
 public typealias D = Data
 public typealias I = Int
 

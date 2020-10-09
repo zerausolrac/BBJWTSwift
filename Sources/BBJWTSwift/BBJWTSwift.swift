@@ -57,7 +57,7 @@ public struct JwtError:BbError{
     public var error:B
     public var message: B
     
-    struct JsonMessage:Codable {
+    struct JsonMessage:Codable { 
         var jerror:B
         var jmessage:B
         init(jerror:B, jmessage:B){

@@ -38,7 +38,7 @@ public protocol BbSignature{
 }
 
 
-public protocol BbError:Codable{
+public protocol BbError:Codable {
     var error:B {get}
     var message:B {get}
     func toJson() -> D
