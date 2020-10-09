@@ -36,3 +36,10 @@ public protocol BbSignature{
     var payload:B {get}
     func sign(secret:B) -> B
 }
+
+
+public protocol BbError:Codable{
+    var error:B {get}
+    var message:B {get}
+    func toJson() -> D
+}

@@ -2,8 +2,6 @@ import Foundation
 import Crypto
 
 
-
-
 public struct JWTHeader:BbHeader, Encodable64, CustomStringConvertible, Codable {
     public var description: B{ return "alg: \(alg) typ:\(typ)"}
     public var alg: B
@@ -54,5 +52,29 @@ public struct JWTSignature:BbSignature{
     }
 }
 
+
+public struct JwtError:BbError{
+    public var error:B
+    public var message: B
+    
+    struct JsonMessage:Codable {
+        var jerror:B
+        var jmessage:B
+        init(jerror:B, jmessage:B){
+            self.jerror = jerror
+            self.jmessage = jmessage
+        }
+    }
+    public func toJson() -> D {
+        let jsonMessage = JsonMessage(jerror: error, jmessage: message)
+        let encoder = JSONEncoder()
+        do{
+            let json = try encoder.encode(jsonMessage)
+            return json
+        }catch{
+            fatalError("JsonMessage: couldn't encode")
+        }
+    }
+}
 
 
