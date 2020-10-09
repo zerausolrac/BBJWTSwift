@@ -40,47 +40,59 @@ extension BBJWTRequestable {
             
             if error == nil{
                 guard let response = response as? HTTPURLResponse, let data = data else{
-                    let cerror = JwtError(error: "500", message: "Network error, try again!") as! T
-                    completado(cerror)
+                    let cerror = BbError(error: "500", message: "Network error, try again!")
+                    let bbResponse = BbResponse(token: nil, error: cerror) as! T
+                    completado(bbResponse)
                     return
                 }
                 
                 switch response.statusCode{
                 case 200:
                     let decoder = JSONDecoder()
-                    do{ 
-                        let json = try decoder.decode(T.self, from: data)
-                        completado(json)
+                    do{
+                        let jsonToken = try decoder.decode(T.self, from: data) as! BbToken
+                        let bbResponse = BbResponse(token: jsonToken, error: nil) as! T
+                        completado(bbResponse)
                     } catch{
-                        let cerror = JwtError(error: "Error Json", message: "Data couldn't conver to json")as! T
-                        completado(cerror)
+                        let cerror = BbError(error: "Error Json", message: "Data could not be converted to json")
+                        let bbResponse = BbResponse(token: nil, error: cerror) as! T
+                        completado(bbResponse)
+                        
                     }
                 case 400:
-                    let cerror = JwtError(error: "400: Bad Request", message: "The json was invalid.") as! T
-                    completado(cerror)
+                    let cerror = BbError(error: "400: Bad Request", message: "The json was invalid.")
+                    let bbResponse = BbResponse(token: nil, error: cerror) as! T
+                    completado(bbResponse) 
                 case 401:
-                    let cerror = JwtError(error: "401:Unauthorized", message: "Authentication credential was missing or incorrect") as! T
-                    completado(cerror)
+                    let cerror = BbError(error: "401:Unauthorized", message: "Authentication credential was missing or incorrect")
+                    let bbResponse = BbResponse(token: nil, error: cerror)as! T
+                    completado(bbResponse)
                 case 403:
-                    let cerror = JwtError(error: "403:Forbidden", message: "You don't have permission to access this resource.") as! T
-                    completado(cerror)
+                    let cerror = BbError(error: "403:Forbidden", message: "You don't have permission to access this resource.")
+                    let bbResponse = BbResponse(token: nil, error: cerror)as! T
+                    completado(bbResponse)
                 case 404:
-                    let cerror = JwtError(error: "404: Resourse Not found", message: "You don't have read access to this resource or the resource does not exist") as! T
-                    completado(cerror)
+                    let cerror = BbError(error: "404: Resourse Not found", message: "You don't have read access to this resource or the resource does not exist")
+                    let bbResponse = BbResponse(token: nil, error: cerror)as! T
+                    completado(bbResponse)
                 case 405:
-                    let cerror = JwtError(error: "405: Method not alloweb", message: "The request is not valid") as! T
-                    completado(cerror)
+                    let cerror = BbError(error: "405: Method not alloweb", message: "The request is not valid")
+                    let bbResponse = BbResponse(token: nil, error: cerror) as! T
+                    completado(bbResponse)
                 case 500:
-                    let cerror = JwtError(error: "500: Internal error", message: "Something seems to be broken on our side. Can you please contact Technical Support") as! T
-                    completado(cerror)
+                    let cerror = BbError(error: "500: Internal error", message: "Something seems to be broken on our side. Can you please contact Technical Support")
+                    let bbResponse = BbResponse(token: nil, error: cerror) as! T
+                    completado(bbResponse)
                 default:
-                    let cerror = JwtError(error: "Error:", message: "Unkown error") as! T
-                    completado(cerror)
+                    let cerror = BbError(error: "Error:", message: "Unkown error")
+                    let bbResponse = BbResponse(token: nil, error: cerror) as! T
+                    completado(bbResponse)
                 }
                 
             } else {
-                let cerror = JwtError(error: "500", message: error!.localizedDescription) as! T
-                completado(cerror)
+                let cerror = BbError(error: "500", message: error!.localizedDescription)
+                let bbResponse = BbResponse(token: nil, error: cerror) as! T
+                completado(bbResponse)
                 return
             }
             

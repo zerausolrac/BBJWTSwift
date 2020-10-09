@@ -8,11 +8,6 @@
 import Foundation
 
 
-public struct BBJWT:Codable{
-   public var access_token: B
-    public var expires_in:I
-}
-
 
 public protocol BbHeader:Encodable{
      var alg:B { get }
@@ -46,9 +41,8 @@ public protocol BbAssertion{
 }
 
 
-public protocol BbError:Codable {
-    var error:B {get}
-    var message:B {get}
-}
+
+
+
 
 

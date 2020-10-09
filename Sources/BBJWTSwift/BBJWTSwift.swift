@@ -71,27 +71,33 @@ public struct JwtAssertion:BbAssertion{
 }
 
 
+public struct BbToken:Codable{
+   public var access_token: B
+    public var expires_in:I
+}
 
-public struct JwtError:BbError{
+public struct BbError:Codable{
     public var error:B
     public var message: B
-    
     init(error:B,message:B){
         self.error = error
         self.message = message
     }
-    
     enum Llaves:String, CodingKey{
         case error
         case message
     }
-
     public func encode(to encoder: Encoder) throws{
         var container =  encoder.container(keyedBy: Llaves.self)
         try container.encode(error, forKey: Llaves.error)
         try container.encode(message, forKey: Llaves.message)
     }
     
+}
+
+public struct BbResponse:Codable{
+    var token:BbToken?
+    var error:BbError?
 }
 
 
