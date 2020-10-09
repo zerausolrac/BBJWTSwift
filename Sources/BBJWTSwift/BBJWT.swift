@@ -13,6 +13,7 @@ public struct BBJWT:Codable{
     public var expires_in:I
 }
 
+
 public protocol BbHeader:Encodable{
      var alg:B { get }
      var typ:B { get }
@@ -48,7 +49,6 @@ public protocol BbAssertion{
 public protocol BbError:Codable {
     var error:B {get}
     var message:B {get}
-    func toJson() -> D
 }
 
 

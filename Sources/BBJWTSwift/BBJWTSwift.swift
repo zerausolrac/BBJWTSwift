@@ -76,24 +76,22 @@ public struct JwtError:BbError{
     public var error:B
     public var message: B
     
-    struct JsonMessage:Codable { 
-        var jerror:B
-        var jmessage:B
-        init(jerror:B, jmessage:B){
-            self.jerror = jerror
-            self.jmessage = jmessage
-        }
+    init(error:B,message:B){
+        self.error = error
+        self.message = message
     }
-    public func toJson() -> D {
-        let jsonMessage = JsonMessage(jerror: error, jmessage: message)
-        let encoder = JSONEncoder()
-        do{
-            let json = try encoder.encode(jsonMessage)
-            return json
-        }catch{
-            fatalError("JsonMessage: couldn't encode")
-        }
+    
+    enum Llaves:String, CodingKey{
+        case error
+        case message
     }
+
+    public func encode(to encoder: Encoder) throws{
+        var container =  encoder.container(keyedBy: Llaves.self)
+        try container.encode(error, forKey: Llaves.error)
+        try container.encode(message, forKey: Llaves.message)
+    }
+    
 }
 
 

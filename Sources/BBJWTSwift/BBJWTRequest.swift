@@ -39,8 +39,8 @@ extension BBJWTRequestable {
         let sesion = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             guard let error = error, let response = response as? HTTPURLResponse else{
-                let cerror = JwtError(error: "500", message: "Network error, try again!")
-                completado((cerror as! T))
+                let cerror = JwtError(error: "500", message: "Network error, try again!") as! T
+                completado(cerror)
                 return
             }
             
@@ -48,8 +48,8 @@ extension BBJWTRequestable {
             case 200:
                 guard let data = data else {
                     completado(nil)
-                    let cerror = JwtError(error: "No data", message: "Any data was returned")
-                    completado((cerror as! T))
+                    let cerror = JwtError(error: "No data", message: "Any data was returned") as! T
+                    completado(cerror )
                     return 
                 }
                  let decoder = JSONDecoder()
@@ -58,30 +58,30 @@ extension BBJWTRequestable {
                     completado(json)
                     
                 } catch{
-                    let cerror = JwtError(error: "Error Json", message: "Data couldn't conver to json")
-                    completado((cerror as! T))
+                    let cerror = JwtError(error: "Error Json", message: "Data couldn't conver to json")as! T
+                    completado(cerror)
                 }
             case 400:
-                let cerror = JwtError(error: "400: Bad Request", message: "The json was invalid.")
-                completado((cerror as! T))
+                let cerror = JwtError(error: "400: Bad Request", message: "The json was invalid.") as! T
+                completado(cerror)
             case 401:
-                let cerror = JwtError(error: "401:Unauthorized", message: "Authentication credential was missing or incorrect")
-                completado((cerror as! T))
+                let cerror = JwtError(error: "401:Unauthorized", message: "Authentication credential was missing or incorrect") as! T
+                completado(cerror)
             case 403:
-                let cerror = JwtError(error: "403:Forbidden", message: "You don't have permission to access this resource.")
-                completado((cerror as! T))
+                let cerror = JwtError(error: "403:Forbidden", message: "You don't have permission to access this resource.") as! T
+                completado(cerror)
             case 404:
-                let cerror = JwtError(error: "404: Resourse Not found", message: "You don't have read access to this resource or the resource does not exist")
-                completado((cerror as! T))
+                let cerror = JwtError(error: "404: Resourse Not found", message: "You don't have read access to this resource or the resource does not exist") as! T
+                completado(cerror)
             case 405:
-                let cerror = JwtError(error: "405: Method not alloweb", message: "The request is not valid")
-                completado((cerror as! T))
+                let cerror = JwtError(error: "405: Method not alloweb", message: "The request is not valid") as! T
+                completado(cerror)
             case 500:
-                let cerror = JwtError(error: "500: Internal error", message: "Something seems to be broken on our side. Can you please contact Technical Support")
-                completado((cerror as! T))
+                let cerror = JwtError(error: "500: Internal error", message: "Something seems to be broken on our side. Can you please contact Technical Support") as! T
+                completado(cerror)
             default:
-                let cerror = JwtError(error: "Error:", message: error.localizedDescription)
-                completado((cerror as! T))
+                let cerror = JwtError(error: "Error:", message: error.localizedDescription) as! T
+                completado(cerror)
             }
             
 
