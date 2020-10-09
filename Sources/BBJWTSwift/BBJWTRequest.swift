@@ -96,10 +96,6 @@ extension BBJWTRequestable {
                 return
             }
             
-           
-            
-
-            
         }
         sesion.resume()
         

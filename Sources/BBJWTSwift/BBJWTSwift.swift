@@ -96,8 +96,8 @@ public struct BbError:Codable{
 }
 
 public struct BbResponse:Codable{
-    var token:BbToken?
-    var error:BbError?
+    public var token:BbToken?
+    public var error:BbError?
 }
 
 
