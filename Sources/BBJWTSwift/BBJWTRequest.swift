@@ -50,7 +50,7 @@ extension BBJWTRequestable {
                 case 200:
                     let decoder = JSONDecoder()
                     do{
-                        let jsonToken = try decoder.decode(T.self, from: data) as! BbToken
+                        let jsonToken = try decoder.decode(BbToken.self, from: data)
                         let bbResponse = BbResponse(token: jsonToken, error: nil) as! T
                         completado(bbResponse)
                     } catch{
