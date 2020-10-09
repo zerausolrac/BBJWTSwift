@@ -48,7 +48,7 @@ extension BBJWTRequestable {
                 switch response.statusCode{
                 case 200:
                     let decoder = JSONDecoder()
-                    do{
+                    do{ 
                         let json = try decoder.decode(T.self, from: data)
                         completado(json)
                     } catch{
