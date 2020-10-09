@@ -57,6 +57,11 @@ public struct JWTSignature:BbSignature{
 public struct JwtAssertion:BbAssertion{
     public var key: B
     public var secret: B
+    
+    public init(key:B,secret:B){
+        self.key = key
+        self.secret = secret
+    }
     public func buildJot() -> B {
         let header = JWTHeader(alg: "HS256", typ: "JWT").encode64Url()
         let payload = JWTPayload(iss: self.key, sub: self.key).encode64Url()
