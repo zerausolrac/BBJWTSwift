@@ -88,12 +88,12 @@ extension BbLearnRequestable{
 
 
 public struct  BbLearnRequest:BbLearnRequestable{
-    var baseURL: B
-    var endPoint: B
-    var key: B
-    var secret: B
+    public  var baseURL: B
+    public var endPoint: B
+    public var key: B
+    public var secret: B
     
-    init(baseURL: B, endPoint: B, key: B, secret: B) {
+    public init(baseURL: B, endPoint: B, key: B, secret: B) {
         self.baseURL = baseURL
         self.endPoint = endPoint
         self.key = key
