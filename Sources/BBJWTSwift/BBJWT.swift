@@ -41,6 +41,13 @@ public protocol BbAssertion{
 }
 
 
+public protocol BbLearnAssertion{
+    var key:B {get}
+    var secret:B{get}
+    func buildCredential()->B
+}
+
+
 
 
 

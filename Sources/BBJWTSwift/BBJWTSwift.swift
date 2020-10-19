@@ -2,6 +2,8 @@ import Foundation
 import Crypto
 
 
+//Bb Collab
+
 public struct JWTHeader:BbHeader, Encodable64, CustomStringConvertible, Codable {
     public var description: B{ return "alg: \(alg) typ:\(typ)"}
     public var alg: B
@@ -70,11 +72,32 @@ public struct JwtAssertion:BbAssertion{
     }
 }
 
+//Bb Learn
+
+public struct TokenLearnAssertion:BbLearnAssertion{
+    public var key:B
+    public var secret:B
+    
+    public init(key:B,secret:B){
+        self.key = key
+        self.secret = secret
+    }
+    
+    public func buildCredential()->B{
+        let payload = key + ":" + secret
+        let encodedPayload = payload.data(using: .utf8)?.base64EncodedString()
+        return payload
+    }
+
+}
+
+//Generic Types
 
 public struct BbToken:Codable{
    public var access_token: B
     public var expires_in:I
 }
+
 
 public struct BbError:Codable{
     public var error:B

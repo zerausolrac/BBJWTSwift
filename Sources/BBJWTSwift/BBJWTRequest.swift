@@ -95,11 +95,10 @@ extension BBJWTRequestable {
                 completado(bbResponse)
                 return
             }
-            
         }
         sesion.resume()
-        
     }
+
     
 }
 
