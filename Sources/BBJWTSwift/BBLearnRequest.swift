@@ -14,13 +14,13 @@ protocol BbLearnRequestable{
     var key:B {get}
     var secret:B {get}
     init(baseURL:B, endPoint:B, key:B, secret:B)
-    func getToken<T:Codable>(completado:@escaping (T?)->Void) throws
+    func getToken<T:Codable>(completado:@escaping (T?)->Void)
 }
 
 
 extension BbLearnRequestable{
 
-    public func getToken<T:Codable>(completado:@escaping (T?)->Void) throws{
+    public func getToken<T:Codable>(completado:@escaping (T?)->Void) {
         var urlComponent = URLComponents()
         urlComponent.scheme = "https"
         urlComponent.host = baseURL
