@@ -85,8 +85,8 @@ public struct TokenLearnAssertion:BbLearnAssertion{
     
     public func buildCredential()->B{
         let payload = key + ":" + secret
-        let encodedPayload = payload.data(using: .utf8)?.base64EncodedString()
-        return payload
+        let encodedPayload = payload.data(using: .utf8)!.base64EncodedString()
+        return encodedPayload
     }
 
 }
