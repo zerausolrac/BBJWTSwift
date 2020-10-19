@@ -8,7 +8,7 @@
 import Foundation
 
 
-protocol BbLearnRequestable{
+public protocol BbLearnRequestable{
     var baseURL:B {get}
     var endPoint:B {get}
     var key:B {get}
@@ -83,7 +83,6 @@ extension BbLearnRequestable{
     }
 
 }
-
 
 
 
