@@ -121,6 +121,8 @@ extension BbLearnRequestable{
         request.addValue("Basic " + payload, forHTTPHeaderField: "Authorization")
         
         var futureResponse:Result<B?,TokenError>!
+        let semaphore = DispatchSemaphore(value: 0)
+        
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
@@ -140,9 +142,10 @@ extension BbLearnRequestable{
             } catch {
                 futureResponse = Result.failure(TokenError.badRequest)
             }
-            
+            semaphore.signal()
         }.resume()
         
+        _ = semaphore.wait(wallTimeout: .distantFuture)
         return Future(){promise in promise(futureResponse)}
         
     }
