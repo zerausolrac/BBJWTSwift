@@ -11,9 +11,8 @@ import Combine
 
 public protocol WebServisable{
     var token:B {get}
-    var endPoint:B {get}
-    init(token:B, endPoint:B)
-    func get<T:Codable>(endPoint:B, params:URLComponents, token:B, as type:T.Type) -> Future<T?,WebServideError>
+    init(token:B)
+    func get<T:Codable>(endPoint:B, params:URLComponents, as type:T.Type) -> Future<T?,WebServideError>
 }
 
 public enum WebServideError:Error{
@@ -27,7 +26,7 @@ public enum WebServideError:Error{
 
 extension WebServisable {
     
-    public func get<T:Codable>(endPoint:B, params:URLComponents, token:B, as type:T.Type) -> Future<T?,WebServideError>{
+    public func get<T:Codable>(endPoint:B, params:URLComponents, as type:T.Type) -> Future<T?,WebServideError>{
         var request:URLRequest = URLRequest(url: params.url!)
         request.httpMethod = "GET"
         request.addValue("Baarer " + token, forHTTPHeaderField: "Authorization")
@@ -69,17 +68,8 @@ extension WebServisable {
 
 
 public struct BBWebService:WebServisable{
-    
     public var token:B
-    public var endPoint: B
-
-    
-    public init(token: B, endPoint: B) {
+    public init(token: B) {
         self.token = token
-        self.endPoint = endPoint
     }
-    
-    
-    
-    
 }
