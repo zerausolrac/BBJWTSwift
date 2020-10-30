@@ -15,7 +15,6 @@ public protocol BbLearnRequestable{
     var key:B {get}
     var secret:B {get}
     init(baseURL:B, endPoint:B, key:B, secret:B)
-    func getToken<T:Codable>(completado:@escaping (T?)->Void)
     func getTokenFuture() -> Future<B?,TokenError>
 }
 
@@ -36,73 +35,6 @@ extension BbLearnRequestable{
         }
         return "/" + endPoint
     }
-    
-    
-    
-    public func getToken<T:Codable>(completado:@escaping (T?)->Void) {
-        var urlComponent = URLComponents()
-        urlComponent.scheme = "https"
-        urlComponent.host = baseURL
-        urlComponent.path = endPoint
-        let payload = TokenLearnAssertion(key: key, secret: secret).buildCredential()
-        
-        var request = URLRequest(url: urlComponent.url!)
-        request.httpMethod = "POST"
-        request.httpBody = "grant_type=client_credentials".data(using: .utf8)
-        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.addValue("Basic " + payload, forHTTPHeaderField: "Authorization")
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
-            if error == nil{
-                guard let response = response as? HTTPURLResponse else{
-                  return
-                }
-                
-                switch response.statusCode{
-                    
-                case 200:
-                   let decoder = JSONDecoder()
-                    do {
-                        let jsonData = try decoder.decode(BbToken.self, from: data!)
-                        let bbResponse = BbResponse(token: jsonData, error: nil) as! T
-                        completado(bbResponse)
-                        
-                    } catch {
-                        
-                    }
-                
-                case 400:
-                    let cerror = BbError(error: "Invalid", message: "Invalid access token request")
-                    let bbResponse = BbResponse(token: nil, error: cerror) as! T
-                    completado(bbResponse)
-                case 401:
-                    let cerror = BbError(error: "Invalid", message: "Invalid client credentials, or no access granted to this Learn server.")
-                    let bbResponse = BbResponse(token: nil, error: cerror) as! T
-                    completado(bbResponse)
-                    
-                default:
-                    let cerror = BbError(error: "Error:", message: "Unkown error")
-                    let bbResponse = BbResponse(token: nil, error: cerror) as! T
-                    completado(bbResponse)
-                
-                
-                }
-                
-             
-                
-            } else {
-                
-            }
-            
-            
-        }.resume()
-        
-        
-    }
-    
-    
-    
     
     public func getTokenFuture() -> Future<B?,TokenError>{
         
@@ -149,6 +81,10 @@ extension BbLearnRequestable{
         return Future(){promise in promise(futureResponse)}
         
     }
+    
+    
+    
+    
 }
 
 
