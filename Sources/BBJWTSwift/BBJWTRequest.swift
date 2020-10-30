@@ -26,6 +26,8 @@ public enum CollabTokenError:Error{
     case forbidden
     case method_not_allowed
     case internal_error
+    case empty_data
+    case json_not_decodabled
 }
 
 
@@ -138,7 +140,7 @@ extension BBJWTRequestable {
         
             if error == nil{
                 guard let response = response as? HTTPURLResponse, let data = data else {
-                    futureResponse = Result.failure(CollabTokenError.internal_error)
+                    futureResponse = Result.failure(CollabTokenError.empty_data)
                     return
                 }
                 
@@ -149,7 +151,7 @@ extension BBJWTRequestable {
                         let jsonData = try decoder.decode(T.self, from: data)
                         futureResponse = Result.success(jsonData)
                     } catch{
-                        futureResponse = Result.failure(CollabTokenError.internal_error)
+                        futureResponse = Result.failure(CollabTokenError.json_not_decodabled)
                     }
                     
                 default:
