@@ -14,7 +14,7 @@ import Combine
      var jwt:B {get}
     init(baseURL:B, endPoint:B, jwt:B)
     func getToken<T:Codable>(completado:@escaping (T?)->Void)
-    func getFutureCollabToken<T:Codable>() -> Future<T?, CollabTokenError>
+    func getFutureCollabToken<T:Codable>(as type: T.Type) -> Future<T?, CollabTokenError>
     
 }
 
@@ -27,7 +27,7 @@ public enum CollabTokenError:Error{
     case method_not_allowed
     case internal_error
     case empty_data
-    case json_not_decodabled
+    case json_not_decoded
 }
 
 
@@ -115,7 +115,7 @@ extension BBJWTRequestable {
     
     
     
-    public  func getFutureCollabToken<T:Codable>() -> Future<T?, CollabTokenError>{
+    public  func getFutureCollabToken<T:Codable>(as type: T.Type) -> Future<T?, CollabTokenError>{
         
         var requestURL = URLComponents()
         requestURL.scheme = "https"
@@ -151,15 +151,12 @@ extension BBJWTRequestable {
                         let jsonData = try decoder.decode(T.self, from: data)
                         futureResponse = Result.success(jsonData)
                     } catch{
-                        futureResponse = Result.failure(CollabTokenError.json_not_decodabled)
+                        futureResponse = Result.failure(CollabTokenError.json_not_decoded)
                     }
                     
                 default:
                     futureResponse = Result.failure(CollabTokenError.internal_error)
                 }
-                
-                
-            
             }else {
                 futureResponse = Result.failure(CollabTokenError.internal_error)
             }
