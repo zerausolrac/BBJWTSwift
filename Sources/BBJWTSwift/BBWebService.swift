@@ -12,8 +12,7 @@ import Combine
 public protocol WebServisable{
     var token:B {get}
     var endPoint:B {get}
-    var params:[URLQueryItem] {get}
-    init(token:B, endPoint:B, params:[URLQueryItem])
+    init(token:B, endPoint:B)
     func get<T:Codable>(endPoint:B, params:URLComponents, token:B, as type:T.Type) -> Future<T?,WebServideError>
 }
 
@@ -73,12 +72,11 @@ public struct BBWebService:WebServisable{
     
     public var token:B
     public var endPoint: B
-    public var params: [URLQueryItem]
+
     
-    public init(token: B, endPoint: B, params: [URLQueryItem]) {
+    public init(token: B, endPoint: B) {
         self.token = token
         self.endPoint = endPoint
-        self.params = params
     }
     
     
