@@ -67,6 +67,14 @@ public struct Router{
     public var token:B
     public var endPoint:B
     public var host:B
+    
+    public init(option:RutaType, method:B, token:B, endPoint:B, host:B){
+        self.option = option
+        self.method = method
+        self.token = token
+        self.endPoint = endPoint
+        self.host = host
+    }
 }
 
 public func routerBuilder(_ route:Router) -> URL{
