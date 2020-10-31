@@ -62,11 +62,11 @@ public enum RutaType{
 }
 
 public struct Router{
-    var option:RutaType
-    var method:B
-    var token:B
-    var endPoint:B
-    var host:B
+    public var option:RutaType
+    public var method:B
+    public var token:B
+    public var endPoint:B
+    public var host:B
 }
 
 public func routerBuilder(_ route:Router) -> URL{
