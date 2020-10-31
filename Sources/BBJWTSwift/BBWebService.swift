@@ -12,7 +12,7 @@ import Combine
 public protocol WebServisable{
     var token:B {get}
     init(token:B)
-    func get<T:Codable>(params:URLComponents, as type:T.Type) -> Future<T?,WebServideError>
+    func get<T:Codable>(request:URLRequest, as type:T.Type) -> Future<T?,WebServideError>
 }
 
 public enum WebServideError:Error{
@@ -26,12 +26,8 @@ public enum WebServideError:Error{
 
 extension WebServisable {
     
-    public func get<T:Codable>(params:URLComponents, as type:T.Type) -> Future<T?,WebServideError>{
-        var request:URLRequest = URLRequest(url: params.url!)
-        request.httpMethod = "GET"
-        request.addValue("Baarer " + token, forHTTPHeaderField: "Authorization")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    
+    public func get<T:Codable>(request:URLRequest, as type:T.Type) -> Future<T?,WebServideError>{
+       
         var futureResponse:Result<T?,WebServideError>!
         let semaphore:DispatchSemaphore = DispatchSemaphore(value: 0)
         URLSession.shared.dataTask(with: request) { (data, response, error) in

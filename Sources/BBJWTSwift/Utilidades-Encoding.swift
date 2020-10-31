@@ -53,3 +53,54 @@ func convetidorB64URL<T:Codable>(_ a:T) -> B{
 func tiempoExp() -> I{
     return Int(Date().timeIntervalSince1970 + 5*60)
 }
+
+//Route builer
+
+public enum RutaType{
+    case path([B])
+    case query([B:B])
+}
+
+public struct Router{
+    var option:RutaType
+    var method:B
+    var token:B
+    var endPoint:B
+    var host:B
+}
+
+public func routerBuilder(_ route:Router) -> URL{
+    
+    switch route.option {
+        //   /endPoint/{courseId}/data
+    case .path(let array):
+        let domainPath = "https://" + route.host + route.endPoint
+        var finalRoute = URL(string: domainPath)
+        array.forEach { path in
+            finalRoute?.appendPathComponent(path)
+        }
+        return finalRoute!
+        
+        // /endPoint/extCourseId=coding0001&startTime=20203
+    case .query(let dic):
+        var finalRoute = URLComponents()
+        var queryItems:[URLQueryItem] = []
+        finalRoute.scheme = "https"
+        finalRoute.path = route.endPoint
+        finalRoute.host = route.host
+        queryItems = dic.map { (key: B, value: B) -> URLQueryItem in
+            return URLQueryItem(name: key, value: value)
+        }
+        finalRoute.queryItems = queryItems
+        return finalRoute.url!
+    }
+}
+
+
+public func RequestBuilder(_ route:Router, path:URL) -> URLRequest{
+    var request:URLRequest = URLRequest(url: path)
+    request.httpMethod = route.method
+    request.addValue("Bearer " + route.token, forHTTPHeaderField: "Authorization")
+    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    return request
+}
