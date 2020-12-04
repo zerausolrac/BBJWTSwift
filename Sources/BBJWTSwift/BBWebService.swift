@@ -20,6 +20,7 @@ public enum WebServideError:Error{
     case not_autorized
     case internal_error
     case json_not_decoded
+    case time_out
     case custom_error(B)
 }
 
@@ -56,7 +57,10 @@ extension WebServisable {
             }
             semaphore.signal()
         }.resume()
-        _ = semaphore.wait(wallTimeout: .distantFuture)
+        if semaphore.wait(timeout: .now() + 15 ) == .timedOut{
+            futureResponse = Result.failure(.time_out)
+        }
+        //_ = semaphore.wait(wallTimeout: .distantFuture)
         return Future(){promise in promise(futureResponse)}
     }
     
