@@ -60,7 +60,7 @@ extension WebServisable {
         if semaphore.wait(timeout: .now() + 15 ) == .timedOut{
             futureResponse = Result.failure(.time_out)
         }
-        //_ = semaphore.wait(wallTimeout: .distantFuture)
+        // _ = semaphore.wait(wallTimeout: .distantFuture)
         return Future(){promise in promise(futureResponse)}
     }
     
